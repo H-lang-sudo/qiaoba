@@ -1,7 +1,7 @@
 #coding:gbk
 """
-³ÌĞòÄ¿±ê£º»ùÓÚPythonºÍGelphiµÄ¡¶ÀèÃ÷ÆÆÏşµÄ½ÖµÀ¡·ÈËÎï¹ØÏµÍ¼Æ×¹¹½¨
-³ÌĞò×÷Õß£ºËïÀû¾ê
+ç›®æ ‡ï¼šåŸºäºPythonå’ŒGelphiçš„ã€Šé»æ˜ç ´æ™“çš„è¡—é“ã€‹äººç‰©å…³ç³»å›¾è°±æ„å»º
+ä½œè€…ï¼šæ—å†°æ¸…
 """
 import codecs
 import jieba 
@@ -10,17 +10,17 @@ from jieba import posseg
 names = {}
 relationship = {}
 Names = []
-jieba.load_userdict("character.txt")  # ¼ÓÔØÈËÎï±í
-with codecs.open("ÀèÃ÷ÆÆÏşµÄ½ÖµÀ.txt",'r','gbk')as f:
+jieba.load_userdict("character.txt")  # åŠ è½½äººç‰©è¡¨
+with codecs.open("é»æ˜ç ´æ™“çš„è¡—é“.txt",'r','gbk')as f:
 	lines = f.readlines()
 	for line in lines:
 		poss = jieba.posseg.cut(line)
-		Names.append([])  # Ôö¼ÓÈËÎïÁĞ±í
+		Names.append([])  # å¢åŠ äººç‰©åˆ—è¡¨
 		for sun in poss:
 			if sun.flag != 'nr' or len(sun.word)<2:
 				continue
 			Names[-1].append(sun.word)
-			if names.get(sun.word) is None:  # ÅĞ¶ÏÈËÎïÊÇ·ñÔÚ×ÖµäÖĞ
+			if names.get(sun.word) is None:  # åˆ¤æ–­äººç‰©æ˜¯å¦åœ¨å­—å…¸ä¸­
 				names[sun.word] = 0
 				relationship[sun.word] = {}
 			names[sun.word] += 1
@@ -33,11 +33,11 @@ for line in Names:
 				relationship[name_1][name_2] = 1
 			else:
 				relationship[name_1][name_2] = relationship[name_1][name_2] + 1
-# Éú³É¶ÔÓ¦ÎÄ¼ş
+# ç”Ÿæˆå¯¹åº”æ–‡ä»¶
 with codecs.open("node.txt",'w','utf-8')as f:
 	f.write("ID Label Weight\r\n")
 	for name,times in names.items():
-		m = ['Ğ¡½ã','ÀÏ¹«¹«','Ã÷°×','¶«°×ÀÖ','Æ½°²Ò¹','»¬Ñ©','°¢ÒÌ','ĞûÑÔ','ÖÙÎ÷¼Ò','ÍşÊ¿¼É','ºì²è','°¢æÖ','·âÓ¡','µÀµÂ','ÎÂÈª','¸ßÖĞÉú','°×·¢ ','Ğì»º','½å¿Ú','ÀÏ¹«','Å·¼ªÉ£','¸ßÔ²ËÂ','¸»ºÀ','Ê±÷Ö','¸ß¶û·òÇò','Ğ»Ğ»','Ô­ÁÂ','Ç³Ğ¦','Áî×ğ','°×·¢','¹Ë¼É','ÖÙÎ÷']
+		m = ['å°å§','è€å…¬å…¬','æ˜ç™½','ä¸œç™½ä¹','å¹³å®‰å¤œ','æ»‘é›ª','é˜¿å§¨','å®£è¨€','ä»²è¥¿å®¶','å¨å£«å¿Œ','çº¢èŒ¶','é˜¿å¬·','å°å°','é“å¾·','æ¸©æ³‰','é«˜ä¸­ç”Ÿ','ç™½å‘ ','å¾ç¼“','è—‰å£','è€å…¬','æ¬§å‰æ¡‘','é«˜åœ†å¯º','å¯Œè±ª','æ—¶é«¦','é«˜å°”å¤«çƒ','è°¢è°¢','åŸè°…','æµ…ç¬‘','ä»¤å°Š','ç™½å‘','é¡¾å¿Œ','ä»²è¥¿']
 		if name in m:
 			continue
 		if times > 3:
@@ -52,13 +52,13 @@ f1 = open('edge.txt','r',encoding='utf-8')
 liness = f1.readlines()
 f1.close
 S = []
-su = ['Source','Target','Weight','ÇïÒ¶','ĞÂ¹È','ºÚÔó','¹Åçù','¶É²¿','ÓĞÃÀ×Ó','Ô°ÃÀ','Àö×Ó','Ò°Ìï','Â«Ô­','ÕæËë','Î²Æé','Ãî×Ó','Àï´å','¼Óµº','ç±×Ó','´ïÑå','¶¤¹¬Õæ¼Í×Ó','Ó¢»İ','»æÀí','°¢¿¡']
+su = ['Source','Target','Weight','ç§‹å¶','æ–°è°·','é»‘æ³½','å¤ç¦','æ¸¡éƒ¨','æœ‰ç¾å­','å›­ç¾','ä¸½å­','é‡ç”°','èŠ¦åŸ','çœŸç©—','å°¾å´','å¦™å­','é‡Œæ‘','åŠ å²›','ç»«å­','è¾¾å½¦','é’‰å®«çœŸçºªå­','è‹±æƒ ','ç»˜ç†','é˜¿ä¿Š']
 for cha in liness:
 	S.append([])
 	c = cha.strip('\n').split(' ')
 	for d in c:
 		S[-1].append(d)
-# ³ıÈ¥·ÇÈËÎïÃû´Ê
+# é™¤å»éäººç‰©åè¯
 u = []
 for i in range(0,len(S),1):
 	if S[i][1] in su:
